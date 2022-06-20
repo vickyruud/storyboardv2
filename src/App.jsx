@@ -1,15 +1,70 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jwt_decode from "jwt-decode"
 
 const App = () => {
 
+  const [stories, setStories] = useState([]);
+  const [user, setUser] = useState(null);
+
+
   const fetchStories = () => {
-    return axios.get('/stories')
+    return axios.get('api/stories')
       .then(res => {
-        console.log(res.data);
+        setStories(res.data);
     })
 
   }
+
+  const login = (user) => {
+    
+    return axios.post('api/login', user)
+      .then(res => res);
+      
+  }
+
+  const handleLogin = () => {
+    const user = {
+      username: 'luna',
+      password : '123456'
+    }
+    login(user)
+    .then(res => {
+      const decoded = jwt_decode(res.data.token);
+      console.log(decoded);
+        setUser(decoded);
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(decoded));
+      
+    })
+  }
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+
+  }
+
+  //maintains login on refresh
+  useEffect(() => {
+    if (!user) {
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        axios.get("/auto-login", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+          .then(res => {
+            console.log(res.data);
+            setUser(res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+          })
+        .catch(error => console.log(error))
+      }
+    }
+  }, [user])
 
   const saveStory = (story) => {
     const newStory = {
@@ -18,7 +73,7 @@ const App = () => {
         "status": "In Progress",
         "user_id": "62af647e0d5f310d1a0abf79",
     }
-    return axios.post('/stories', newStory)
+    return axios.post('api/stories', newStory)
       .then(res => {
         console.log(res.data);
     })
@@ -30,8 +85,13 @@ const App = () => {
 
 
   return (
-    <div className='text-3xl font-bold underline'>Storyboard - Upgraded
-    </div>
+    <>
+      <div className='text-3xl font-bold underline'>Storyboard - Upgraded</div>
+      {user ? <p>{user.username} 'is logged in'</p> : 'not logged in'}
+      <button onClick={handleLogin} className='rounded-lg border-4 border-blue-900 bg-sky-500'> login</button>
+      <button onClick={handleLogout} className='rounded-lg border-4 border-blue-900 bg-sky-500'> logout</button>
+
+    </>
   )
 }
 
