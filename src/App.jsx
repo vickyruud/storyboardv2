@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from "jwt-decode"
+import NavBar from './components/NavBar';
 
 const App = () => {
 
   const [stories, setStories] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
 
   const fetchStories = () => {
-    return axios.get('api/stories')
+    return axios.get('/stories')
       .then(res => {
         setStories(res.data);
     })
@@ -18,7 +19,7 @@ const App = () => {
 
   const login = (user) => {
     
-    return axios.post('api/login', user)
+    return axios.post('/login', user)
       .then(res => res);
       
   }
@@ -85,13 +86,11 @@ const App = () => {
 
 
   return (
-    <>
-      <div className='text-3xl font-bold underline'>Storyboard - Upgraded</div>
-      {user ? <p>{user.username} 'is logged in'</p> : 'not logged in'}
-      <button onClick={handleLogin} className='rounded-lg border-4 border-blue-900 bg-sky-500'> login</button>
-      <button onClick={handleLogout} className='rounded-lg border-4 border-blue-900 bg-sky-500'> logout</button>
+    <div>
+      <NavBar/>
+      
 
-    </>
+    </div>
   )
 }
 
