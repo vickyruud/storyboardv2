@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from "jwt-decode"
 import NavBar from './components/NavBar';
+import LoginForm from './components/LoginForm';
 
 const App = () => {
 
@@ -87,7 +88,8 @@ const App = () => {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
+      <LoginForm/>
       
 
     </div>
