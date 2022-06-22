@@ -13,11 +13,15 @@ const NavBar = () => {
 
   return (
     <div className="fixed w-full h-[70px] flex justify-between items-center px-4 bg-[#3c075a] text-gray-300">
+      <div className="flex flex-row">
+
       <a href="/" className="text-xl font-bold text-gray-200">
-        StoryBoard
+        StoryBoard 
       </a>
+      {loggedUser ? <p className="text-xl pl-2 font-semibold capitalize">Welcome {loggedUser.username}</p> : null}
+      </div>
       {/* Menu */}
-      <ul className="hidden md:flex font-semibold ">
+      <ul className="hidden md:flex font-semibold">
         {!loggedUser ? (
           <>
             <NavMenuItem handleClick={showLogin} itemName="Login" />{" "}
