@@ -12,7 +12,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="fixed w-full h-[70px] flex justify-between items-center px-4 bg-[#3c075a] text-gray-300">
+    <div className="fixed w-full h-[50px] flex justify-between items-center px-4 bg-[#3c075a] text-gray-300">
       <div className="flex flex-row">
 
       <a href="/" className="text-xl font-bold text-gray-200">
