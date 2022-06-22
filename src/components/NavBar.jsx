@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../App";
 import NavMenuItem from "./NavMenuItem";
 
-const NavBar = ({ user, handleLogout,  setModalType, setShowModal }) => {
-
+const NavBar = () => {
+  const { loggedUser, handleLogout, setModalType, setShowModal } =
+    useContext(AppContext);
 
   const showLogin = () => {
-    console.log('here')
-    setModalType('login');
+    setModalType("login");
     setShowModal(true);
-  }
+  };
 
   return (
     <div className="fixed w-full h-[70px] flex justify-between items-center px-4 bg-[#3c075a] text-gray-300">
@@ -17,12 +18,13 @@ const NavBar = ({ user, handleLogout,  setModalType, setShowModal }) => {
       </a>
       {/* Menu */}
       <ul className="hidden md:flex font-semibold ">
-        {!user ? (
+        {!loggedUser ? (
           <>
-            <NavMenuItem handleClick={showLogin}  itemName="Login" /> <NavMenuItem itemName="Register" />
+            <NavMenuItem handleClick={showLogin} itemName="Login" />{" "}
+            <NavMenuItem itemName="Register" />
           </>
         ) : (
-          <NavMenuItem handleClick={handleLogout}  itemName="Logout" />
+          <NavMenuItem handleClick={handleLogout} itemName="Logout" />
         )}
       </ul>
     </div>
