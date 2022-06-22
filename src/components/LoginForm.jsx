@@ -1,7 +1,11 @@
 import React from 'react'
 
-const LoginForm = () => {
+const LoginForm = ({setShowModal}) => {
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    setShowModal(false);
+  }
 
 
   return (
@@ -23,7 +27,7 @@ const LoginForm = () => {
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
         Sign In
       </button>
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+      <button onClick={handleCancel} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
         Cancel
       </button>
     </div>

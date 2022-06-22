@@ -10,6 +10,12 @@ const App = () => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
+
+  
+
+
 
   const fetchStories = () => {
     return axios.get("/stories").then((res) => {
@@ -105,10 +111,9 @@ const App = () => {
 
   return (
     <div>
-      <NavBar user={user} handleLogout={handleLogout} />
-      <Modal handleLogin={handleLogin} />
-      <LoginForm />
-      <button onClick={handleRegister}>Handle Register</button>      
+      <NavBar setShowModal={setShowModal} setModalType={setModalType} user={user} handleLogout={handleLogout} />
+      <Modal showModal={showModal} setShowModal={setShowModal} modalType={modalType} handleLogin={handleLogin} />
+      <button onClick={() => setShowModal(false)}>Hide Modal</button>
     </div>
   );
 };
