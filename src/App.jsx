@@ -4,11 +4,14 @@ import jwt_decode from "jwt-decode";
 import NavBar from "./components/NavBar";
 import Modal from "./components/Modal";
 import { login, register } from "./utils/user";
+import StoryListItem from "./components/StoryListItem";
 
 export const AppContext = createContext();
 
 const App = () => {
-  const [stories, setStories] = useState([]);
+  const [stories, setStories] = useState(
+    JSON.parse(localStorage.getItem("stories")) || null
+  );
   const [loggedUser, setLoggedUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -18,6 +21,7 @@ const App = () => {
   const fetchStories = () => {
     return axios.get("/stories").then((res) => {
       setStories(res.data);
+      localStorage.setItem("stories", JSON.stringify(res.data));
     });
   };
 
@@ -101,8 +105,11 @@ const App = () => {
 
   return (
     <AppContext.Provider value={appContextValue}>
-      <NavBar />
-      <Modal />
+        <NavBar />
+      <div className="flex flex-col pt-24">
+        <Modal />
+        <StoryListItem story={stories[0]} />
+      </div>
     </AppContext.Provider>
   );
 };

@@ -1,8 +1,17 @@
 import React from 'react'
 
-const StoryListItem = () => {
+const StoryListItem = ({ story }) => {
+  
+  console.log(story);
+
   return (
-    <div>StoryListItem</div>
+    <div className='bg-[#798087]'>
+      {/* container */}
+      <div className='border-4'>
+        {story.contents}
+      </div>
+
+    </div>
   )
 }
 
