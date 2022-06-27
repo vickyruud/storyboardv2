@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import Modal from "./components/Modal";
 import { login, register } from "./utils/user";
 import StoryListItem from "./components/StoryListItem";
+import StoryList from "./components/StoryList";
 
 export const AppContext = createContext();
 
@@ -106,9 +107,9 @@ const App = () => {
   return (
     <AppContext.Provider value={appContextValue}>
         <NavBar />
-      <div className="flex flex-col pt-24">
+      <div className="flex flex-col ">
         <Modal />
-        <StoryListItem story={stories[0]} />
+        <StoryList stories={stories} />
       </div>
     </AppContext.Provider>
   );
