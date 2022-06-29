@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../App'
 import StoryListItem from './StoryListItem'
 
-const StoryList = ({ stories }) => {
+const StoryList = () => {
+
+  const {stories} = useContext(AppContext)
 
   const arrayOfStories = stories.map(story => {
     return (

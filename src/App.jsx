@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 import NavBar from "./components/NavBar";
 import Modal from "./components/Modal";
 import { login, register } from "./utils/user";
-import StoryListItem from "./components/StoryListItem";
 import StoryList from "./components/StoryList";
 
 export const AppContext = createContext();
@@ -109,7 +108,7 @@ const App = () => {
         <NavBar />
       <div className="flex flex-col ">
         <Modal />
-        <StoryList stories={stories} />
+        <StoryList  />
       </div>
     </AppContext.Provider>
   );
