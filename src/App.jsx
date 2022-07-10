@@ -24,18 +24,17 @@ const App = () => {
   const [modalType, setModalType] = useState("");
 
   const fetchStories = () => {
+    console.log('via button click');
     return axios.get("/stories").then((res) => {
       setStories(res.data);
       localStorage.setItem("stories", JSON.stringify(res.data));
     });
   };
 
-
-    const fetchUsers = () => {
+  const fetchUsers = () => {
     return axios.get("/users").then((res) => {
       setUsers(res.data);
       localStorage.setItem("users", JSON.stringify(res.data));
-
     });
   };
 
@@ -71,6 +70,17 @@ const App = () => {
     setLoggedUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+  };
+
+  const updateStory = (story) => {
+    axios
+      .post(`/stories/:${story._id}`, story)
+      .then((res) => {
+        fetchStories();       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   //maintains login on refresh
@@ -110,21 +120,22 @@ const App = () => {
     handleRegister,
     handleLogout,
     saveStory,
+    updateStory,
     stories,
     showModal,
     setShowModal,
     modalType,
     setModalType,
     loggedUser,
-    users
+    users,
   };
 
   return (
     <AppContext.Provider value={appContextValue}>
-        <NavBar />
+      <NavBar />
       <div className="flex flex-col justify-center items-center bg-orange-100 ">
         <Modal />
-        <StoryList  />
+        <StoryList />
       </div>
     </AppContext.Provider>
   );
