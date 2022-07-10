@@ -106,7 +106,7 @@ const App = () => {
   return (
     <AppContext.Provider value={appContextValue}>
         <NavBar />
-      <div className="flex flex-col ">
+      <div className="flex flex-col justify-center items-center bg-orange-100 ">
         <Modal />
         <StoryList  />
       </div>
