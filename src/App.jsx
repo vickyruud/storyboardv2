@@ -10,11 +10,16 @@ export const AppContext = createContext();
 
 const App = () => {
   const [stories, setStories] = useState(
-    JSON.parse(localStorage.getItem("stories")) || null
+    JSON.parse(localStorage.getItem("stories")) || []
   );
   const [loggedUser, setLoggedUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+
+  const [users, setUsers] = useState(
+    JSON.parse(localStorage.getItem("users")) || []
+  );
+
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
 
@@ -22,6 +27,15 @@ const App = () => {
     return axios.get("/stories").then((res) => {
       setStories(res.data);
       localStorage.setItem("stories", JSON.stringify(res.data));
+    });
+  };
+
+
+    const fetchUsers = () => {
+    return axios.get("/users").then((res) => {
+      setUsers(res.data);
+      localStorage.setItem("users", JSON.stringify(res.data));
+
     });
   };
 
@@ -88,6 +102,7 @@ const App = () => {
 
   useEffect(() => {
     fetchStories();
+    fetchUsers();
   }, []);
 
   const appContextValue = {
@@ -101,6 +116,7 @@ const App = () => {
     modalType,
     setModalType,
     loggedUser,
+    users
   };
 
   return (

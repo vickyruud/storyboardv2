@@ -1,8 +1,9 @@
 import React from 'react';
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 
-const StoryListItem = ({ story }) => {
-  
+const StoryListItem = ({ story, user }) => {  
+
+  console.log(user)
 
   return (
 <div className="p-4 ">
@@ -20,7 +21,7 @@ const StoryListItem = ({ story }) => {
         <div className="flex items-center">
           
           <div className="text-sm">
-            <p className="text-gray-900 leading-none font-bold">John Smith</p>
+            <p className="text-gray-900 leading-none font-bold capitalize">{user.username}</p>
             <p className="text-gray-600font-semibold">Aug 18</p>
           </div>
         </div>

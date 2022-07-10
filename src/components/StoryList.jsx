@@ -4,11 +4,14 @@ import StoryListItem from './StoryListItem'
 
 const StoryList = () => {
 
-  const {stories} = useContext(AppContext)
+  const {stories, users} = useContext(AppContext)
 
   const arrayOfStories = stories.map(story => {
+
+    const user = users.find(user => user._id === story.user_id)
+
     return (
-      <StoryListItem key={story._id} story={story} />
+      <StoryListItem key={story._id} story={story} user={user} />
     )
   })
 
