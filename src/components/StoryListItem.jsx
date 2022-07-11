@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext  } from "react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import { AppContext } from '../App';
 import TimeAgo from 'timeago-react';
@@ -8,7 +8,6 @@ const StoryListItem = ({ story, user }) => {
 
 
 
-  const [voted, setVoted] = useState(false);
 
   const { updateStory, loggedUser } = useContext(AppContext);
 
@@ -16,28 +15,39 @@ const StoryListItem = ({ story, user }) => {
   const handleUpVote = () => {
 
     const id = loggedUser.id.toString()
-    console.log(id, story);
+
+    console.log(story.usersUpVoted);
 
     if (story.usersUpVoted.includes(id)) {
-      console.log('already voted')
-      return null
+      
+      const newUsersUpVoted = story.usersUpVoted.filter(user => user !== id);
+      const newStory = { ...story, votes: story.votes - 1, usersUpVoted: newUsersUpVoted };
+
+      updateStory(newStory);
+
+          
     } else {
-      console.log('here');
       const newStory = { ...story, votes: story.votes + 1, usersUpVoted: [...story.usersUpVoted, id] };
       updateStory(newStory);
     }
   };
 
   const handleDownVote = () => {
-     
+
     const id = loggedUser.id.toString()
 
-    if (story.usersDownVoted.includes(id)) {
-      console.log('already voted')
-      return null
+    console.log(story.usersUpVoted);
+
+    if (story.usersUpVoted.includes(id)) {
+      
+      const newUsersUpVoted = story.usersUpVoted.filter(user => user !== id);
+      const newStory = { ...story, votes: story.votes + 1, usersUpVoted: newUsersUpVoted };
+
+      updateStory(newStory);
+
+          
     } else {
-      story.usersDownVoted.push(loggedUser.id);
-      const newStory = { ...story, votes: story.votes - 1 };
+      const newStory = { ...story, votes: story.votes - 1, usersUpVoted: [...story.usersUpVoted, id] };
       updateStory(newStory);
     }
   };

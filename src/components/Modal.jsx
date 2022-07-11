@@ -3,7 +3,7 @@ import { AppContext } from "../App";
 import LoginForm from "./LoginForm";
 
 const Modal = () => {
-  const { modalType, showModal, setShowModal, login, register } =
+  const { modalType, showModal, setShowModal, login } =
     useContext(AppContext);
 
   return (

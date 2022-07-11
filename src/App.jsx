@@ -24,7 +24,6 @@ const App = () => {
   const [modalType, setModalType] = useState("");
 
   const fetchStories = () => {
-    console.log('via button click');
     return axios.get("/stories").then((res) => {
       setStories(res.data);
       localStorage.setItem("stories", JSON.stringify(res.data));
@@ -73,7 +72,7 @@ const App = () => {
   };
 
   const updateStory = (story) => {
-    axios
+   return axios
       .post(`/stories/:${story._id}`, story)
       .then((res) => {
         fetchStories();       
