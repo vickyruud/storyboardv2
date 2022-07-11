@@ -1,14 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../App";
 import NavMenuItem from "./NavMenuItem";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const NavBar = () => {
+
+  const [nav, setNav] = useState(false);
+
+   const handleClick = () => setNav(!nav);
+
   const { loggedUser, handleLogout, setModalType, setShowModal } =
     useContext(AppContext);
+  
+  const handleLogoutClick = () => {
+    setNav(!nav);
+    handleLogout();
+  }
 
   const showLogin = () => {
     setModalType("login");
     setShowModal(true);
+    setNav(!nav)
   };
 
   return (
@@ -29,6 +41,27 @@ const NavBar = () => {
           </>
         ) : (
           <NavMenuItem handleClick={handleLogout} itemName="Logout" />
+        )}
+      </ul>
+      {/* Hamburger */}
+      <button onClick={handleClick} className="md:hidden z-10">
+        {!nav ? <FaBars /> : <FaTimes />}
+      </button>
+      {/* Mobile Menu */}
+      <ul
+        className={
+          !nav
+            ? "hidden"
+            : " absolute top-0 left-0 w-full h-screen bg-[#442c55] flex flex-col justify-center items-center "
+        }
+      >
+        {!loggedUser ? (
+          <>
+            <NavMenuItem handleClick={showLogin}  itemName="Login" />{" "}
+            <NavMenuItem itemName="Register"  />
+          </>
+        ) : (
+          <NavMenuItem handleClick={handleLogoutClick} itemName="Logout" />
         )}
       </ul>
     </div>

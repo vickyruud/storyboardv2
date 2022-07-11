@@ -1,57 +1,83 @@
-import { useContext  } from "react";
+import { useContext } from "react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
-import { AppContext } from '../App';
-import TimeAgo from 'timeago-react';
-
+import { AppContext } from "../App";
+import TimeAgo from "timeago-react";
+import { useState } from "react";
 
 const StoryListItem = ({ story, user }) => {
-
-
-
+  const [upVoted, setUpVoted] = useState(false);
+  const [downVoted, setDownVoted] = useState(false);
 
   const { updateStory, loggedUser } = useContext(AppContext);
 
-
   const handleUpVote = () => {
+    if (loggedUser) {
+      const id = loggedUser.id.toString();
 
-    const id = loggedUser.id.toString()
+      if (story.usersUpVoted.includes(id)) {
+        const newUsersUpVoted = story.usersUpVoted.filter(
+          (user) => user !== id
+        );
+        const newUsersDownVoted = story.usersDownVoted.filter(
+          (user) => user !== id
+        );
 
-    console.log(story.usersUpVoted);
-
-    if (story.usersUpVoted.includes(id)) {
-      
-      const newUsersUpVoted = story.usersUpVoted.filter(user => user !== id);
-      const newStory = { ...story, votes: story.votes - 1, usersUpVoted: newUsersUpVoted };
-
-      updateStory(newStory);
-
-          
+        const newStory = {
+          ...story,
+          votes: story.votes - 1,
+          usersUpVoted: newUsersUpVoted,
+          usersDownVoted: newUsersDownVoted,
+        };
+        updateStory(newStory);
+        setUpVoted(!upVoted);
+      } else {
+        const newStory = {
+          ...story,
+          votes: story.votes + 1,
+          usersUpVoted: [...story.usersUpVoted, id],
+        };
+        updateStory(newStory);
+        setUpVoted(!upVoted);
+      }
     } else {
-      const newStory = { ...story, votes: story.votes + 1, usersUpVoted: [...story.usersUpVoted, id] };
-      updateStory(newStory);
+      console.log("please login");
     }
   };
 
   const handleDownVote = () => {
+    if (loggedUser) {
+      const id = loggedUser.id.toString();
 
-    const id = loggedUser.id.toString()
+      if (story.usersDownVoted.includes(id)) {
+        const newUsersUpVoted = story.usersUpVoted.filter(
+          (user) => user !== id
+        );
+        const newUsersDownVoted = story.usersDownVoted.filter(
+          (user) => user !== id
+        );
 
-    console.log(story.usersUpVoted);
+        const newStory = {
+          ...story,
+          votes: story.votes + 1,
+          usersUpVoted: newUsersUpVoted,
+          usersDownVoted: newUsersDownVoted,
+        };
 
-    if (story.usersUpVoted.includes(id)) {
-      
-      const newUsersUpVoted = story.usersUpVoted.filter(user => user !== id);
-      const newStory = { ...story, votes: story.votes + 1, usersUpVoted: newUsersUpVoted };
-
-      updateStory(newStory);
-
-          
+        updateStory(newStory);
+        setDownVoted(!downVoted);
+      } else {
+        const newStory = {
+          ...story,
+          votes: story.votes - 1,
+          usersDownVoted: [...story.usersDownVoted, id],
+        };
+        updateStory(newStory);
+        setDownVoted(!downVoted);
+      }
     } else {
-      const newStory = { ...story, votes: story.votes - 1, usersUpVoted: [...story.usersUpVoted, id] };
-      updateStory(newStory);
+      console.log("please login");
     }
   };
-
 
   return (
     <div className="p-4 ">
@@ -75,7 +101,9 @@ const StoryListItem = ({ story, user }) => {
           <div className="flex items-center">
             <div className="text-sm">
               <p className="text-gray-900 leading-none font-bold capitalize pb-1">{`${user.first_name}  ${user.last_name}`}</p>
-              <p className="text-gray-600font-semibold"><TimeAgo datetime={story.createdAt}/></p>
+              <p className="text-gray-600font-semibold">
+                <TimeAgo datetime={story.createdAt} />
+              </p>
             </div>
           </div>
         </div>
