@@ -10,10 +10,12 @@ const StoryListItem = ({ story, user }) => {
 
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
+  const [loading, setLoading] = useState(false);
   
 
 
   const handleUpVote = () => {
+    setLoading(true);
     //checks if user is logged in.
     if (loggedUser) {
       //records the ID of the user who is logged in.
@@ -38,7 +40,7 @@ const StoryListItem = ({ story, user }) => {
           usersDownVoted: newUsersDownVoted,
         };
         //updates the database
-        updateStory(newStory);
+        updateStory(newStory)
       } else {
         let votes;
         //checks if user has already down voted.
@@ -64,9 +66,16 @@ const StoryListItem = ({ story, user }) => {
     } else {
       console.log("please login");
     }
+    setTimeout(() => {
+      setLoading(false);
+
+    }, 1000)
+
   };
 
   const handleDownVote = () => {
+    setLoading(true);
+
     if (loggedUser) {
       const id = loggedUser.id.toString();
 
@@ -111,6 +120,12 @@ const StoryListItem = ({ story, user }) => {
     } else {
       console.log("please login");
     }
+     setTimeout(() => {
+      setLoading(false);
+
+    }, 1000)
+
+
   };
 
   useEffect(() => {
@@ -147,7 +162,7 @@ const StoryListItem = ({ story, user }) => {
             {upVoted ? <BsShiftFill/> : <BsShift />}
             
           </button>
-          <p className={` ${upVoted ? 'text-orange-600 font-bold': null } ${downVoted? 'text-blue-600 font-bold' : null}`} >{story.votes}</p>
+          <p className={` ${upVoted ? 'text-orange-600 font-bold': null } ${downVoted? 'text-blue-600 font-bold' : null}`} >{loading? '...' : story.votes}</p>
           <button className="text-blue-600 hover:text-teal-700 hover:shadow-xl hover:font-bold rotate-180" onClick={handleDownVote}>
             {downVoted ? <BsShiftFill/> : <BsShift />}
           </button>

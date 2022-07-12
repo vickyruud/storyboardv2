@@ -27,6 +27,7 @@ const App = () => {
     return axios.get("/stories").then((res) => {
       setStories(res.data);
       localStorage.setItem("stories", JSON.stringify(res.data));
+      return
     });
   };
 
@@ -74,7 +75,7 @@ const App = () => {
    return axios
       .post(`/stories/:${story._id}`, story)
       .then((res) => {
-        fetchStories();       
+       return fetchStories();       
       })
       .catch((err) => {
         console.log(err);
