@@ -34,7 +34,7 @@ const NavBar = () => {
       <div className="flex flex-row">
 
       <a href="/" className="text-xl font-bold text-gray-200">
-        StoryBoard 
+        StoryBoard -
       </a>
       {loggedUser ? <p className="text-xl pl-2 font-semibold capitalize">Welcome {loggedUser.first_name}</p> : null}
       </div>
