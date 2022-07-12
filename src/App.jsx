@@ -41,7 +41,6 @@ const App = () => {
     register(user)
       .then((res) => {
         const decoded = jwt_decode(res.data.token);
-        console.log(decoded);
         setLoggedUser(decoded);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(decoded));

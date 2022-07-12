@@ -10,6 +10,7 @@ const StoryListItem = ({ story, user }) => {
 
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
+  
 
 
   const handleUpVote = () => {
@@ -146,7 +147,7 @@ const StoryListItem = ({ story, user }) => {
             {upVoted ? <BsShiftFill/> : <BsShift />}
             
           </button>
-          <p className={` ${upVoted ? 'text-orange-800 font-bold': null } ${downVoted? 'text-blue-600 font-bold' : null}`} >{story.votes}</p>
+          <p className={` ${upVoted ? 'text-orange-600 font-bold': null } ${downVoted? 'text-blue-600 font-bold' : null}`} >{story.votes}</p>
           <button className="text-blue-600 hover:text-teal-700 hover:shadow-xl hover:font-bold rotate-180" onClick={handleDownVote}>
             {downVoted ? <BsShiftFill/> : <BsShift />}
           </button>

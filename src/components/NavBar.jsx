@@ -36,7 +36,7 @@ const NavBar = () => {
       <a href="/" className="text-xl font-bold text-gray-200">
         StoryBoard 
       </a>
-      {loggedUser ? <p className="text-xl pl-2 font-semibold capitalize">Welcome {loggedUser.username}</p> : null}
+      {loggedUser ? <p className="text-xl pl-2 font-semibold capitalize">Welcome {loggedUser.first_name}</p> : null}
       </div>
       {/* Menu */}
       <ul className="hidden md:flex font-semibold">
