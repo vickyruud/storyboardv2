@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { AiOutlineArrowDown } from "react-icons/ai";
 import { BsShift, BsShiftFill } from "react-icons/bs";
 import { AppContext } from "../App";
 import TimeAgo from "timeago-react";
@@ -10,6 +9,8 @@ const StoryListItem = ({ story, user }) => {
   const { updateStory, loggedUser } = useContext(AppContext);
 
   const [upVoted, setUpVoted] = useState(false);
+  const [downVoted, setDownVoted] = useState(false);
+
 
   const handleUpVote = () => {
     //checks if user is logged in.
@@ -120,23 +121,34 @@ const StoryListItem = ({ story, user }) => {
       } else {
         setUpVoted(false);
       }
+
+      if (story.usersDownVoted.includes(id)) {
+        setDownVoted(true);
+      } else {
+        setDownVoted(false);
+      }
+
+
+    } else {
+      setDownVoted(false);
+      setUpVoted(false);
     }
-  }, [loggedUser, story.usersUpVoted]);
+  }, [loggedUser, story.usersUpVoted, story.usersDownVoted]);
 
   return (
     <div className="p-4 ">
       <div className=" w-full lg:max-w-full flex flex-row lg:flex border-2 shadow-xl shadow-stone-400 border-gray-400   lg:border-gray-400 ">
         <div className=" pl-4 pr-4 flex flex-col justify-center  items-center ">
           <button
-            className="text-red-400 hover:text-[#7d1a1a] hover:font-bold"
+            className="text-orange-500 hover:text-orange-700 hover:shadow-xl  hover:font-bold"
             onClick={handleUpVote}
           >
             {upVoted ? <BsShiftFill/> : <BsShift />}
             
           </button>
-          <p className="">{story.votes}</p>
-          <button className="text-blue-600" onClick={handleDownVote}>
-            <AiOutlineArrowDown />
+          <p className={` ${upVoted ? 'text-orange-800 font-bold': null } ${downVoted? 'text-blue-600 font-bold' : null}`} >{story.votes}</p>
+          <button className="text-blue-600 hover:text-teal-700 hover:shadow-xl hover:font-bold rotate-180" onClick={handleDownVote}>
+            {downVoted ? <BsShiftFill/> : <BsShift />}
           </button>
         </div>
         <div className=" rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
