@@ -1,12 +1,11 @@
 import { useContext } from "react";
-import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
+import { AiOutlineArrowDown } from "react-icons/ai";
+import {FaArrowUp} from "react-icons/fa"
 import { AppContext } from "../App";
 import TimeAgo from "timeago-react";
-import { useState } from "react";
 
 const StoryListItem = ({ story, user }) => {
-  const [upVoted, setUpVoted] = useState(false);
-  const [downVoted, setDownVoted] = useState(false);
+ 
 
   const { updateStory, loggedUser } = useContext(AppContext);
 
@@ -20,24 +19,43 @@ const StoryListItem = ({ story, user }) => {
         );
         const newUsersDownVoted = story.usersDownVoted.filter(
           (user) => user !== id
-        );
+        );        
+        
+        const newVotes = story.votes - 1        
+        
 
         const newStory = {
           ...story,
-          votes: story.votes - 1,
+          votes: newVotes,
           usersUpVoted: newUsersUpVoted,
           usersDownVoted: newUsersDownVoted,
         };
         updateStory(newStory);
-        setUpVoted(!upVoted);
+      
+
       } else {
+
+          let votes;
+
+        if (story.usersDownVoted.includes(id)) {
+           votes = story.votes + 2
+          
+        } else {
+          votes = story.votes + 1
+        }
+         const newUsersDownVoted = story.usersDownVoted.filter(
+          (user) => user !== id
+        );  
+        
         const newStory = {
           ...story,
-          votes: story.votes + 1,
+          votes: votes,
           usersUpVoted: [...story.usersUpVoted, id],
+          usersDownVoted: newUsersDownVoted
         };
         updateStory(newStory);
-        setUpVoted(!upVoted);
+        
+
       }
     } else {
       console.log("please login");
@@ -54,25 +72,41 @@ const StoryListItem = ({ story, user }) => {
         );
         const newUsersDownVoted = story.usersDownVoted.filter(
           (user) => user !== id
-        );
+        );  
+
+        let votes = story.votes + 1;
+
+      
 
         const newStory = {
           ...story,
-          votes: story.votes + 1,
+          votes: votes,
           usersUpVoted: newUsersUpVoted,
           usersDownVoted: newUsersDownVoted,
         };
 
         updateStory(newStory);
-        setDownVoted(!downVoted);
       } else {
+
+         let votes;
+
+        if (story.usersUpVoted.includes(id)) {
+           votes = story.votes - 2
+          
+        } else {
+          votes = story.votes - 1
+        }
+
+         const newUsersUpVoted = story.usersUpVoted.filter(
+          (user) => user !== id
+        );
         const newStory = {
           ...story,
-          votes: story.votes - 1,
+          votes: votes,
           usersDownVoted: [...story.usersDownVoted, id],
+          usersUpVoted: newUsersUpVoted
         };
         updateStory(newStory);
-        setDownVoted(!downVoted);
       }
     } else {
       console.log("please login");
@@ -83,8 +117,9 @@ const StoryListItem = ({ story, user }) => {
     <div className="p-4 ">
       <div className=" w-full lg:max-w-full flex flex-row lg:flex border-2 shadow-xl shadow-stone-400 border-gray-400   lg:border-gray-400 ">
         <div className=" pl-4 pr-4 flex flex-col justify-center  items-center ">
-          <button className="text-red-700" onClick={handleUpVote}>
-            <AiOutlineArrowUp />
+          <button className="text-red-400 hover:text-red-800" onClick={handleUpVote}>
+            <FaArrowUp/>             
+            
           </button>
           <p className="">{story.votes}</p>
           <button className="text-blue-600" onClick={handleDownVote}>
@@ -102,7 +137,7 @@ const StoryListItem = ({ story, user }) => {
             <div className="text-sm">
               <p className="text-gray-900 leading-none font-bold capitalize pb-1">{`${user.first_name}  ${user.last_name}`}</p>
               <p className="text-gray-600font-semibold">
-                <TimeAgo datetime={story.createdAt} />
+                <TimeAgo datetime={story.createdAt}/>
               </p>
             </div>
           </div>

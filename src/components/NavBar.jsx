@@ -20,8 +20,14 @@ const NavBar = () => {
   const showLogin = () => {
     setModalType("login");
     setShowModal(true);
-    setNav(!nav)
   };
+
+  const mobileLogin = () => {
+    setNav(!nav);
+    setModalType("login");
+    setShowModal(true);
+
+  }
 
   return (
     <div className="sticky top-0 z-50 w-full h-[50px] flex justify-between items-center px-4 bg-[#3c075a] text-gray-300">
@@ -57,7 +63,7 @@ const NavBar = () => {
       >
         {!loggedUser ? (
           <>
-            <NavMenuItem handleClick={showLogin}  itemName="Login" />{" "}
+            <NavMenuItem handleClick={mobileLogin}  itemName="Login" />{" "}
             <NavMenuItem itemName="Register"  />
           </>
         ) : (
