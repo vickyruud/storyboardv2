@@ -137,7 +137,7 @@ const App = () => {
       <BrowserRouter>
         <NavBar />
         <Modal />
-        <div className="flex flex-col justify-center items-center bg-orange-100 ">
+        <div className="flex flex-col justify-center items-center bg-[#F0D5FF] ">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="stories" element={<StoryList />} />

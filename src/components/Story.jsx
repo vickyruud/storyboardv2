@@ -17,10 +17,16 @@ const Story = () => {
 
 
   return (
-    <div className='text-3xl'>
-      <p>
+    <div className='p-5 bg-gray-800 text-white h-screen '>
+      <div className=' mb-5  w-[1000px]  min-h-[200px]  '>
+
+      <h1 className='font-bold text-2xl text-center'>
       {selectedStory.title}
-      </p>
+        </h1>
+        <p className='p-4'>
+          {selectedStory.contents}
+        </p>
+      </div>
       <Link to="/">Back to Home</Link>
     </div>
   )
