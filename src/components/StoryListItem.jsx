@@ -1,9 +1,8 @@
-import { useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import { BsShift, BsShiftFill } from "react-icons/bs";
 import { AppContext } from "../App";
 import TimeAgo from "timeago-react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const StoryListItem = ({ story, user }) => {
   const { updateStory, loggedUser } = useContext(AppContext);
@@ -12,8 +11,7 @@ const StoryListItem = ({ story, user }) => {
   const [downVoted, setDownVoted] = useState(false);
   const [loading, setLoading] = useState(false);
   
-
-
+  
   const handleUpVote = () => {
     setLoading(true);
     //checks if user is logged in.
@@ -169,9 +167,11 @@ const StoryListItem = ({ story, user }) => {
         </div>
         <div className=" rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
           <div className="mb-8">
-            <div className="text-purple-900 font-bold text-xl mb-2">
+            <Link to={`/stories/${story._id}`}>
+            <p className="text-purple-900 underline font-bold text-xl mb-2">
               {story.title}
-            </div>
+            </p>
+            </Link>
             <p className="text-gray-700 text-base">{story.contents}</p>
           </div>
           <div className="flex items-center">

@@ -7,6 +7,7 @@ import { login, register } from "./utils/user";
 import StoryList from "./components/StoryList";
 import { Outlet, Route, Routes, BrowserRouter } from "react-router-dom";
 import Home from "./components/Home";
+import Story from "./components/Story";
 
 export const AppContext = createContext();
 
@@ -133,18 +134,18 @@ const App = () => {
 
   return (
     <AppContext.Provider value={appContextValue}>
-    <BrowserRouter>
-
-      <NavBar />
-      <Modal />
-      <div className="flex flex-col justify-center items-center bg-orange-100 ">
-        <Routes>
-          <Route path="/" element={<Home />}/>
+      <BrowserRouter>
+        <NavBar />
+        <Modal />
+        <div className="flex flex-col justify-center items-center bg-orange-100 ">
+          <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="stories" element={<StoryList />} />
-        </Routes>
+            <Route path="/stories/:id" element={<Story />} />
+          </Routes>
           <Outlet />
-      </div>
-    </BrowserRouter>          
+        </div>
+      </BrowserRouter>
     </AppContext.Provider>
   );
 };
