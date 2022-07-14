@@ -5,6 +5,8 @@ import NavBar from "./components/NavBar";
 import Modal from "./components/Modal";
 import { login, register } from "./utils/user";
 import StoryList from "./components/StoryList";
+import { Outlet, Route, Routes, BrowserRouter } from "react-router-dom";
+import Home from "./components/Home";
 
 export const AppContext = createContext();
 
@@ -27,7 +29,7 @@ const App = () => {
     return axios.get("/stories").then((res) => {
       setStories(res.data);
       localStorage.setItem("stories", JSON.stringify(res.data));
-      return
+      return;
     });
   };
 
@@ -72,10 +74,10 @@ const App = () => {
   };
 
   const updateStory = (story) => {
-   return axios
+    return axios
       .post(`/stories/:${story._id}`, story)
       .then((res) => {
-       return fetchStories();       
+        return fetchStories();
       })
       .catch((err) => {
         console.log(err);
@@ -131,11 +133,18 @@ const App = () => {
 
   return (
     <AppContext.Provider value={appContextValue}>
+    <BrowserRouter>
+
       <NavBar />
+      <Modal />
       <div className="flex flex-col justify-center items-center bg-orange-100 ">
-        <Modal />
-        <StoryList />
+        <Routes>
+          <Route path="/" element={<Home />}/>
+            <Route path="stories" element={<StoryList />} />
+        </Routes>
+          <Outlet />
       </div>
+    </BrowserRouter>          
     </AppContext.Provider>
   );
 };
